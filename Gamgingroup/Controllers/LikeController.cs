@@ -11,6 +11,7 @@ namespace Gamgingroup.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]
+    [ApiController]
 
     public class LikesController : ControllerBase
     {

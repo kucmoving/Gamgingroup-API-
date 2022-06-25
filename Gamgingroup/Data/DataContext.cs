@@ -12,23 +12,35 @@ namespace Gamgingroup.Data
         public DbSet<Photo> Photos { get; set; }
         public DbSet<UserLike> Likes { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<UserLike>()
-                .HasKey(k => new { k.SourceUserId, k.LikedUserId });
+                .HasKey(x => new { x.SourceUserId, x.LikedUserId });
 
             builder.Entity<UserLike>()
-                .HasOne(s => s.SourceUser)
-                .WithMany(l => l.LikedUsers)
-                .HasForeignKey(s => s.SourceUserId)
+                .HasOne(x => x.SourceUser)
+                .WithMany(x => x.LikedUsers)
+                .HasForeignKey(x => x.SourceUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<UserLike>()
-                .HasOne(s => s.LikedUser)
-                .WithMany(l => l.LikedByUsers)
-                .HasForeignKey(s => s.LikedUserId)
+                .HasOne(x => x.LikedUser)
+                .WithMany(x =>x.LikedByUsers)
+                .HasForeignKey(x => x.LikedUserId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Message>()
+                .HasOne(u => u.Recipient)
+                .WithMany(m => m.MessagesReceived)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+                .HasOne(u => u.Sender)
+                .WithMany(m => m.MessagesSent)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
