@@ -6,10 +6,11 @@ using Gamgingroup.Intefaces;
 using Gamgingroup.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using LogUserActivity = Gamgingroup.Helpers.LogUserActivity;
 
 namespace Gamgingroup.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Gamgingroup.Data;
 using Gamgingroup.DTOs;
+using Gamgingroup.Helpers;
 using Gamgingroup.Intefaces;
 using Gamgingroup.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,7 @@ using System.Text;
 
 namespace Gamgingroup.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase

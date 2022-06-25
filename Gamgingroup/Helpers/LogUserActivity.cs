@@ -1,10 +1,8 @@
-﻿using Gamgingroup.Intefaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Gamgingroup.Extensions;
+using Gamgingroup.Intefaces;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
-namespace Gamgingroup.Extensions
+namespace Gamgingroup.Helpers
 {
     public class LogUserActivity : IAsyncActionFilter
     {
@@ -14,9 +12,9 @@ namespace Gamgingroup.Extensions
 
             if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
 
-            var userId = resultContext.HttpContext.User.GetUserId();
+            var username = resultContext.HttpContext.User.GetUsername();
             var repo = resultContext.HttpContext.RequestServices.GetService<IUserRepository>();
-            var user = await repo.GetUserByIdAsync(userId);
+            var user = await repo.GetUserByUsernameAsync(username);
             user.LastActive = DateTime.UtcNow;
             await repo.SaveAllAsync();
         }
